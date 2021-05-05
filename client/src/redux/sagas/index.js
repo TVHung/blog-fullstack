@@ -34,10 +34,34 @@ function* createPostSaga(action) {
     }
   }
 
+  function* loginSaga(action) {
+    try {
+      const login = yield call(api.login, action.payload);
+      yield put(actions.login.loginSuccess(login.data));
+    } catch (err) {
+      console.error(err);
+      yield put(actions.login.loginFailure(err));
+    }
+  }
+
+  function* registerSaga(action) {
+    try {
+      const register = yield call(api.register, action.payload);
+      yield put(actions.register.registerSuccess(register.data));
+    } catch (err) {
+      console.error(err);
+      yield put(actions.register.registerFailure(err));
+    }
+  }
+
+
 function* mySaga() {
     yield takeLatest(actions.getPosts.getPostsRequest, fetchPostSaga);
     yield takeLatest(actions.createPost.createPostRequest, createPostSaga);
     yield takeLatest(actions.updatePost.updatePostRequest, updatePostSaga);
+    yield takeLatest(actions.login.loginRequest, loginSaga);
+    yield takeLatest(actions.register.registerRequest, registerSaga);
+
 }
 
 //generator funcion es6

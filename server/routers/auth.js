@@ -4,6 +4,7 @@ const router =  express.Router();
 import {registerValidation, loginValidation} from '../validation.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 router.post('/register', async (req, res) => {
 
@@ -57,7 +58,7 @@ router.post('/login', async (req, res) => {
     if(!valiPass){
         return res.status(400).send('Invalid password');
     }
-
+    
     //create and assign to token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     res.header('auth-token', token).send(token);
