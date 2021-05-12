@@ -5,14 +5,15 @@ import {registerValidation, loginValidation} from '../validation.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import { updateUser } from '../controllers/user.js';
 
 router.post('/register', async (req, res) => {
 
     //lets validate the data before we a user
-    const {error} = registerValidation(req.body);
-    if(error){
-        return res.status(400).send(error.details[0].message)
-    }
+    // const {error} = registerValidation(req.body);
+    // if(error){
+    //     return res.status(400).send(error.details[0].message)
+    // }
 
 
     //checking if the user is already in the database
@@ -42,10 +43,10 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
 
     //lets validate the data before we a user
-    const {error} = loginValidation(req.body);
-    if(error){
-        return res.status(400).send(error.details[0].message)
-    }
+    // const {error} = loginValidation(req.body);
+    // if(error){
+    //     return res.status(400).send(error.details[0].message)
+    // }
 
     //checking if the email exists
     const user = await User.findOne({email: req.body.email});
@@ -62,7 +63,7 @@ router.post('/login', async (req, res) => {
     //create and assign to token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     res.header('auth-token', token).send(token);
+    // res.json(req.body);
 });
-
 
 export default router;

@@ -10,6 +10,16 @@ export const getPosts = async (req, res) => {
     }
 };
 
+export const getDetailPost = async (req, res) => {
+    try{
+        const post = await PostModel.find({_id: req.params.postId});
+        console.log(post);
+        res.status(200).json(post);
+    }catch(err){
+        res.status(500).json({error: err});
+    }
+};
+
 export const createPost = async (req, res) => {
     try{
         const newPost = req.body;
@@ -24,8 +34,16 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
     try{
         const updatePost = req.body;
-        const post = await PostModel.findOneAndUpdate({_id: updatePost._id}, updatePost, {new: true});
-        
+        const post = await PostModel.findOneAndUpdate({_id: req.params.postId}, updatePost, {new: true});
+        res.status(200).json(post);
+    }catch(err){
+        res.status(500).json({error: err});
+    }
+};
+
+export const deletePost = async (req, res) => {
+    try{
+        const post = await PostModel.remove({_id: req.params.postId});
         res.status(200).json(post);
     }catch(err){
         res.status(500).json({error: err});
