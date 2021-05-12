@@ -1,9 +1,12 @@
 import React, {useState} from 'react'
 import useStyles from './styles';
 import { Container } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../../redux/actions';
 
 export default function LoginRegister({Login, ChangeStateScreen}) {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [userData, setUserData] = useState({
         email: '',
         password: ''
@@ -11,8 +14,16 @@ export default function LoginRegister({Login, ChangeStateScreen}) {
 
     const submitHandler = (e) => {
         e.preventDefault();
+        setUserData({
+            email: '',
+            password: '',
+        });
         Login(userData);
     }
+
+    // const submitHandler = React.useCallback(() => {
+    //     dispatch(login.loginRequest(userData));
+    // }, [userData, dispatch]);
 
     const onCLickChangeScreen = () => {
         ChangeStateScreen(false);

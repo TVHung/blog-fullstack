@@ -17,6 +17,10 @@ export default function Post({ post }) {
     );
   }, [dispatch, post]);
 
+  const handleIconClicks = (e) => {
+    console.log(post._id);
+  }
+
   return (
     <Card>
       <CardHeader
@@ -24,16 +28,16 @@ export default function Post({ post }) {
         title={post.author}
         subheader={moment(post.updatedAt).format('HH:MM MMM DD,YYYY')}
         action={
-          <IconButton>
+          <IconButton onClick={(e) => handleIconClicks(e)}>
             <MoreVertIcon />
           </IconButton>
         }
       />
-      <CardMedia
-        image={post.attachment || ''}
+      {/* <CardMedia
+        image={post.attackment || ''}
         title='Title'
         className={classes.media}
-      />
+      /> */}
       <CardContent>
         <Typography variant='h5' color='textPrimary'>
           {post.title}

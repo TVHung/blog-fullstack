@@ -2,9 +2,12 @@ import React, {useState} from 'react'
 import useStyles from './styles';
 import { Container } from '@material-ui/core';
 import api from '../../api';
+import { register } from '../../redux/actions';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function LoginRegister({Register, ChangeStateScreen}) {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [userData, setUserData] = useState({
         name: '',
         email: '',
@@ -14,8 +17,19 @@ export default function LoginRegister({Register, ChangeStateScreen}) {
 
     const submitHandler = (e) => {
         e.preventDefault();
+        setUserData({
+            name: '',
+            email: '',
+            password: '',
+            cfPassword: ''
+        });
         Register(userData);
     }
+
+    // const submitHandler = React.useCallback(() => {
+    //     dispatch(register.registerRequest(userData));
+    // }, [userData, dispatch]);
+
     const onCLickChangeScreen = () => {
         ChangeStateScreen(true);
     }
@@ -39,7 +53,7 @@ export default function LoginRegister({Register, ChangeStateScreen}) {
                     </div>
                     <div className="form-group">
                         <label className={classes.textFeild} htmlFor="cfPassword">Confirm password</label>
-                        <input placeholder="Confirm password..." className={classes.input} type="cfPassword" name="cfPassword" id="cfPassword" onChange={e => setUserData({...userData, cfPassword: e.target.value})} value={userData.cfPassword}/>
+                        <input placeholder="Confirm password..." className={classes.input} type="password" name="cfPassword" id="cfPassword" onChange={e => setUserData({...userData, cfPassword: e.target.value})} value={userData.cfPassword}/>
                     </div>
                     <input type="submit" value="Register" className={classes.submit}/>
                 </div>

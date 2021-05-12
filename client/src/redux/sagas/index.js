@@ -34,6 +34,16 @@ function* createPostSaga(action) {
     }
   }
 
+  function* deletePostSaga(action) {
+    try {
+      const deletePost = yield call(api.deletePost, action.payload);
+      yield put(actions.deletePost.deletePostSuccess(deletePost.data));
+    } catch (err) {
+      console.error(err);
+      yield put(actions.deletePost.deletePostFailure(err));
+    }
+  }
+
   function* loginSaga(action) {
     try {
       const login = yield call(api.login, action.payload);
@@ -59,6 +69,7 @@ function* mySaga() {
     yield takeLatest(actions.getPosts.getPostsRequest, fetchPostSaga);
     yield takeLatest(actions.createPost.createPostRequest, createPostSaga);
     yield takeLatest(actions.updatePost.updatePostRequest, updatePostSaga);
+    yield takeLatest(actions.deletePost.deletePostRequest, deletePostSaga);
     yield takeLatest(actions.login.loginRequest, loginSaga);
     yield takeLatest(actions.register.registerRequest, registerSaga);
 

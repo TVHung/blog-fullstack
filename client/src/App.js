@@ -4,16 +4,18 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import * as actions from './redux/actions';
 import React, {useState} from 'react';
-import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState({name: '', email: '', password: ''});
   const [loginSreen, setLoginSreen] = useState({state: true})
 
+  //check login
   const Login = (userData) => {
     console.log(userData);
+
   }
 
+  //create new user
   const Register = (userData) => {
     console.log(userData);
   }
@@ -24,11 +26,12 @@ function App() {
 
   return (
     <>
-      {
+      <HomePage />
+      {/* {
         loginSreen.state
         ?<LoginPage Login={Login} ChangeStateScreen={ChangeStateScreen}/>
         :<RegisterPage Register={Register} ChangeStateScreen={ChangeStateScreen}/>
-      }
+      } */}
     </>
   );
 }

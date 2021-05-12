@@ -14,7 +14,10 @@ const schema = new mongoose.Schema({
         required: true,
         default: 'Anonymous'
     }, 
-    attackment: String,
+    attackment: {
+        String,
+        default: ''
+    },
     likeCount: {
         type: Number,
         default: 0
