@@ -2,10 +2,15 @@ import React from 'react';
 import {Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography} from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
 import moment from 'moment';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { updatePost } from '../../../redux/actions';
+import imgDefaultUrl from '../../../assets/images/a.jpg';
 
 export default function Post({ post }) {
   const classes = useStyles();
@@ -17,9 +22,39 @@ export default function Post({ post }) {
     );
   }, [dispatch, post]);
 
-  const handleIconClicks = (e) => {
-    console.log(post._id);
+  //menulist
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleIconClicks = (event) => {
+    setAnchorEl(event.currentTarget);
   }
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEdit = () => {
+    handleClose();
+  };
+  
+  const handleDelete = () => {
+    handleClose();
+  };
+
+
+  const menu = (
+    <Menu
+      id="fade-menu"
+      anchorEl={anchorEl}
+      keepMounted
+      open={open}
+      onClose={handleClose}
+      TransitionComponent={Fade}
+    >
+      <MenuItem onClick={handleEdit}>Edit</MenuItem>
+      <MenuItem onClick={handleDelete}>Delete</MenuItem>
+    </Menu>
+  );
 
   return (
     <Card>
@@ -28,16 +63,19 @@ export default function Post({ post }) {
         title={post.author}
         subheader={moment(post.updatedAt).format('HH:MM MMM DD,YYYY')}
         action={
-          <IconButton onClick={(e) => handleIconClicks(e)}>
-            <MoreVertIcon />
-          </IconButton>
+          <>
+            <IconButton aria-controls="fade-menu" aria-haspopup="true" onClick={handleIconClicks}>
+              <MoreVertIcon />
+            </IconButton>
+            {menu}
+          </>
         }
       />
-      {/* <CardMedia
-        image={post.attackment || ''}
-        title='Title'
+      <CardMedia
+        image={post.attachment || imgDefaultUrl}
         className={classes.media}
-      /> */}
+        title="Title"
+      />
       <CardContent>
         <Typography variant='h5' color='textPrimary'>
           {post.title}

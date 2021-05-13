@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import useStyles from './styles';
 import { Container } from '@material-ui/core';
-import api from '../../api';
+// import api from '../../api';
 import { register } from '../../redux/actions';
 import { useSelector, useDispatch } from 'react-redux';
 
