@@ -11,6 +11,17 @@ import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { updatePost } from '../../../redux/actions';
 import imgDefaultUrl from '../../../assets/images/a.jpg';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import { deletePost } from '../../../api';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function Post({ post }) {
   const classes = useStyles();
@@ -32,16 +43,19 @@ export default function Post({ post }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const handleEdit = () => {
     handleClose();
+    //open screen edit
+    //todo
+
+    //save post
+    //todo
   };
-  
   const handleDelete = () => {
     handleClose();
+    //show popup confirm 
+    handleClickOpenPopup();
   };
-
-
   const menu = (
     <Menu
       id="fade-menu"
@@ -56,6 +70,44 @@ export default function Post({ post }) {
     </Menu>
   );
 
+  //popup
+  const [openPopup, setOpenPopup] = React.useState(false);
+  const handleClickOpenPopup = () => {
+    setOpenPopup(true);
+  };
+  const handlePopupClose = () => {
+    setOpenPopup(false);
+  };
+  const handlePopupOkClose = React.useCallback(() => {
+    // dispatch(
+    //   deletePost.deletePostRequest()
+    // );
+    console.log("Delete post");
+    setOpenPopup(false);
+  }, [dispatch, post]);
+  const popupConfirm = (
+    <>
+      <Dialog
+        open={openPopup}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handlePopupClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">{"Do you want to delete this blog?"}</DialogTitle>
+        <DialogActions>
+          <Button onClick={handlePopupClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handlePopupOkClose} color="primary">
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+
   return (
     <Card>
       <CardHeader
@@ -68,6 +120,7 @@ export default function Post({ post }) {
               <MoreVertIcon />
             </IconButton>
             {menu}
+            {popupConfirm}
           </>
         }
       />

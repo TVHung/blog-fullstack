@@ -10,8 +10,8 @@ router.get('/:postId', getDetailPost);
 
 router.post('/', createPost);
 
-router.post('/update/:postId', updatePost);
+router.post('/update/', updatePost);
 
-router.post('/delete/:postId', deletePost);
+router.post('/delete/', deletePost);
 
 export default router;

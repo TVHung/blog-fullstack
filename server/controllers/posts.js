@@ -32,7 +32,7 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
     try{
         const updatePost = req.body;
-        const post = await PostModel.findOneAndUpdate({_id: req.params.postId}, updatePost, {new: true});
+        const post = await PostModel.findOneAndUpdate({_id: updatePost._id}, updatePost, {new: true});
         res.status(200).json(post);
     }catch(err){
         res.status(500).json({error: err});
@@ -41,7 +41,7 @@ export const updatePost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
     try{
-        const post = await PostModel.remove({_id: req.params.postId});
+        const post = await PostModel.remove({_id: deletePost._id});
         res.status(200).json(post);
     }catch(err){
         res.status(500).json({error: err});
